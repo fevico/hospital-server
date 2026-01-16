@@ -15,14 +15,24 @@ import { redisStore } from 'cache-manager-ioredis-yet';
       isGlobal: true,
       imports: [ConfigModule],       
       inject: [ConfigService],
-      useFactory: async (config?: ConfigService) => ({
+      useFactory: async (config: ConfigService) => {
         // Use the awaited factory version
-        store: await redisStore({
-          host: 'localhost',
-          port: 6379,
-          // ttl: 300, // seconds
-        }),
-      }),
+        const redisUrl = config.get<string>('REDIS_URL')
+
+        if (!redisUrl) {
+          console.warn('No REDIS_URL found — falling back to in-memory cache');
+          return {}; // in-memory fallback for local/dev
+        }
+
+        return {
+          store: await redisStore({
+            url: redisUrl
+            // host: 'localhost',
+            // port: 6379,
+            // ttl: 300, // seconds
+          }),
+        };
+      },
     }),
 
     TypeOrmModule.forRootAsync({
