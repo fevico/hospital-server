@@ -46,7 +46,8 @@ A full-stack mini-dashboard application that visualizes hospital locations and a
 
 2. Install dependencies:Bashnpm install
 3. Create .env file (use your Neon credentials):envDATABASE_URL=postgresql://...    @ep-...neon.tech/neondb?sslmode=require
-4. Start development server (auto-seeds data on startup):Bashnpm run start:devAPI available at: http://localhost:3000Endpoints:
+4. setup redis if using production redis add the REDIS_URL in the env and if localhost add the details in the app.module
+5. Start development server (auto-seeds data on startup):Bashnpm run start:devAPI available at: http://localhost:3000Endpoints:
 GET /hospitals → list hospitals
 GET /ambulances → list ambulances
 PUT /ambulances/:id/location → update ambulance position { "lat": 6.55, "lng": 3.39 }
