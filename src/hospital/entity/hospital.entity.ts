@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, Index } from 'typeorm';
-import { Point } from 'geojson'; // from @types/geojson
+import type { Point } from 'geojson';
 
-@Entity('hospitals') // table name
+@Entity('hospitals')
 export class Hospital {
   @PrimaryGeneratedColumn()
   id: number;
@@ -9,12 +9,21 @@ export class Hospital {
   @Column()
   name: string;
 
+  @Column({ nullable: true }) // Extra: Street address for display
+  address: string;
+
+  @Column({ default: 100 }) // Extra: Bed capacity
+  capacity: number;
+
+  @Column({ nullable: true }) // Extra: e.g., 'General', 'Specialist', 'Emergency'
+  type: string;
+
   @Column({
-    type: 'geometry',               // or 'geography' if you prefer (meters-based)
-    spatialFeatureType: 'Point',    // restricts to Point only
-    srid: 4326,                     // standard GPS coord system (WGS84)
+    type: 'geometry',
+    spatialFeatureType: 'Point',
+    srid: 4326,
     nullable: false,
   })
-  @Index({ spatial: true })         // creates GIST index → very important for fast spatial queries!
-  location: Point;                  // TypeScript type: { type: 'Point', coordinates: [lng, lat] }
+  @Index({ spatial: true })
+  location: Point; // { type: 'Point', coordinates: [lng, lat] }
 }
