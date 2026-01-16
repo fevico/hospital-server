@@ -15,8 +15,8 @@ export class AmbulanceController implements OnModuleInit {
   }
 
   @Put(':id/location')
-  updateLocation(@Param('id') id: number, @Body() { lat, lng }: { lat: number; lng: number }) {
-    return this.ambulanceService.updateLocation(id, lat, lng);
+  updateLocation(@Param('id') id: number, @Body() { lat, lng, status }: { lat: number; lng: number, status: string }) {
+    return this.ambulanceService.updateLocation(id, lat, lng, status);
   }
 
   @Get('nearest/:hospitalId')

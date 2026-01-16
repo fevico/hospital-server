@@ -25,11 +25,13 @@ export class AmbulanceService {
     id: number,
     lat: number,
     lng: number,
+    status: string
   ): Promise<Ambulance> {
     const ambulance = await this.ambulanceRepository.findOneBy({ id });
     if (!ambulance) throw new Error('Ambulance not found');
 
     ambulance.location = this.createPoint(lng, lat);
+    ambulance.status = status;
     return this.ambulanceRepository.save(ambulance);
   }
 

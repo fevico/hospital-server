@@ -1,98 +1,53 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# GIS-Integrated Hospital Dashboard
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A full-stack mini-dashboard application that visualizes hospital locations and ambulance proximity using spatial data and GIS techniques. Built as part of a technical assessment to demonstrate full-stack skills with React, Leaflet, NestJS, TypeORM, PostgreSQL + PostGIS, and TanStack Query.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Features
 
-## Description
+- **Spatial Database** with PostgreSQL + PostGIS
+  - At least 10 mock hospitals and 5 ambulances seeded in Lagos, Nigeria area
+  - Ambulance locations can be manually updated via API to simulate movement
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- **Interactive Map** (Frontend)
+  - React + Leaflet map displaying all hospitals as clickable markers
+  - Clicking a hospital marker shows hospital details + nearest ambulance (with distance in km)
+  - Uses spatial backend query for accurate proximity calculation
 
-## Project setup
+- **Proximity Logic**
+  - Backend calculates nearest ambulance using PostGIS spatial functions (`ST_Distance` with geography type)
+  - Cached results (Redis) for repeated queries → no repeated DB hits (satisfies "Grit Challenge")
 
-```bash
-$ npm install
-```
+- **Ambulance Management**
+  - List view of all ambulances with status and current location
+  - "Move Randomly" button on each ambulance card → updates coordinates via API (simulates real-time movement)
+  - Updates reflect immediately in the list and affect nearest-ambulance calculations on the map
 
-## Compile and run the project
+- **Backend Tech**
+  - NestJS + TypeScript
+  - TypeORM with PostGIS geometry support
+  - Redis caching for proximity queries
+  - Neon-hosted PostgreSQL
 
-```bash
-# development
-$ npm run start
 
-# watch mode
-$ npm run start:dev
+## Setup & Running
 
-# production mode
-$ npm run start:prod
-```
+### Prerequisites
 
-## Run tests
+- Node.js ≥ 18
+- PostgreSQL (Neon serverless used here)
+- Redis (local or cloud)
+- Git
 
-```bash
-# unit tests
-$ npm run test
+### Backend (NestJS)
 
-# e2e tests
-$ npm run test:e2e
+1. Navigate to backend folder:
+   ```bash
+   cd server
 
-# test coverage
-$ npm run test:cov
-```
-
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
-
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+2. Install dependencies:Bashnpm install
+3. Create .env file (use your Neon credentials):envDATABASE_URL=postgresql://...    @ep-...neon.tech/neondb?sslmode=require
+4. Start development server (auto-seeds data on startup):Bashnpm run start:devAPI available at: http://localhost:3000Endpoints:
+GET /hospitals → list hospitals
+GET /ambulances → list ambulances
+PUT /ambulances/:id/location → update ambulance position { "lat": 6.55, "lng": 3.39 }
+GET /ambulances/nearest/:hospitalId → nearest ambulance + distance
